@@ -7,13 +7,19 @@ Player::Player(sf::Texture* texture, sf::Vector2u imageSize, float switchTime, f
 	faceRight = true;
 	row = 0;
 
-	body.setSize(sf::Vector2f(100, 150));
+	body.setSize(sf::Vector2f(150, 150));
 	body.setPosition(sf::Vector2f(206.0f, 206.0f));
+	body.setOrigin(body.getSize() / 2.0f);
 	body.setTexture(texture);
+	
 };
 Player::~Player()
 {
 };
+sf::Vector2f Player::GetPosition()
+{
+	return body.getPosition();
+}
 
 void Player::Draw(sf::RenderWindow& window)
 {

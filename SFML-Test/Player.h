@@ -10,6 +10,7 @@ public:
 
 	void Draw(sf::RenderWindow& window);
 	void Update(float deltaTime);
+	sf::Vector2f GetPosition();
 
 private:
 	sf::RectangleShape body;
