@@ -3,7 +3,7 @@
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(512, 512), "Samurai", sf::Style::Default);
+	sf::RenderWindow window(sf::VideoMode(800, 640), "Samurai", sf::Style::Default);
 
 	sf::Texture playerTexture;
 	playerTexture.loadFromFile("samurai.png");
