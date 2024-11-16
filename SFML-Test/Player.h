@@ -6,7 +6,7 @@
 class Player
 {
 public:
-	Player(sf::Texture* texture, sf::Vector2u imageSize, float switchTime, float speed);
+	Player(sf::Texture* texture, sf::Vector2u imageSize, float switchTime, float speed, float jumpHeight);
 	~Player();
 
 	void Draw(sf::RenderWindow& window);
@@ -15,6 +15,8 @@ public:
 	sf::Vector2f GetPosition();
 	Collider GetCollider();
 
+	void OnCollision(sf::Vector2f direction);
+
 private:
 	sf::RectangleShape body;
 	Animation animation;
@@ -22,5 +24,9 @@ private:
 	float speed;
 	unsigned int maxColumnCount = 0;
 	bool faceRight;
+
+	sf::Vector2f velocity;
+	bool canJump;
+	float jumpHeight;
 };
 

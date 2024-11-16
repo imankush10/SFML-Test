@@ -1,6 +1,8 @@
 #include<SFML/Graphics.hpp>
 #include "Player.h"
 #include "Platform.h"
+#include <vector>
+
 static const float VIEW_HEIGHT = 512;
 
 void ResizeWidth(const sf::RenderWindow& window, sf::View& view)
@@ -16,11 +18,15 @@ int main()
     sf::Texture playerTexture;
     playerTexture.loadFromFile("samurai.png");
 
-    Player player(&playerTexture, sf::Vector2u(12, 10), 0.2, 100.0f);
+    Player player(&playerTexture, sf::Vector2u(12, 10), 0.1, 150.0f, 130.0f);
     Collider c = player.GetCollider();
 
-    Platform platform1(nullptr, sf::Vector2f(150, 150), sf::Vector2f(400, 300));
-    Platform platform2(nullptr, sf::Vector2f(150, 150), sf::Vector2f(300, 500));
+    std::vector<Platform> platforms;
+
+    platforms.push_back(Platform(nullptr, sf::Vector2f(1920, 100), sf::Vector2f(0, 550)));
+    platforms.push_back(Platform(nullptr, sf::Vector2f(150, 50), sf::Vector2f(400, 420)));
+    platforms.push_back(Platform(nullptr, sf::Vector2f(20, 1080), sf::Vector2f(20, 550)));
+    platforms.push_back(Platform(nullptr, sf::Vector2f(100, 40), sf::Vector2f(100, 350)));
 
     float deltaTime = 0.0f;
     sf::Clock clock;
@@ -30,9 +36,13 @@ int main()
         deltaTime = clock.restart().asSeconds();
 
         player.Update(deltaTime);
+        sf::Vector2f direction;
 
-        platform1.GetCollider().CheckCollision(c, 0.5f);
-        platform2.GetCollider().CheckCollision(c, 0.5f);
+        for (Platform& platform : platforms)
+        {
+            if (platform.GetCollider().CheckCollision(c, 1.0f, direction))
+                player.OnCollision(direction);
+        }
 
         view.setCenter(player.GetPosition());
 
@@ -52,11 +62,12 @@ int main()
         window.clear(sf::Color::Cyan);
 
         player.Draw(window);
-        platform1.Draw(window);
-        platform2.Draw(window);
+        for (Platform& platform : platforms)
+        {
+            platform.Draw(window);
+        }
 
         player.GetCollider().DebugDraw(window, sf::Color::Red);      // Player boundary
-        platform1.GetCollider().DebugDraw(window, sf::Color::Blue); // Platform boundary
         
         window.setView(view);
         window.display();

@@ -36,7 +36,7 @@ sf::Vector2f Collider::GetHalfSize()
     return body.getSize() / 2.0f;
 }
 
-bool Collider::CheckCollision(Collider& other, float push)
+bool Collider::CheckCollision(Collider& other, float push, sf::Vector2f& direction)
 {
     sf::Vector2f otherPosition = other.GetPosition();
     sf::Vector2f otherHalfSize = other.GetHalfSize();
@@ -64,11 +64,15 @@ bool Collider::CheckCollision(Collider& other, float push)
         {
             Move(intersectX * (1.0f - push), 0.0f);
             other.Move(-intersectX * push, 0.0f);
+            direction.x = 1;
+            direction.y = 0;
         }
         else
         {
             Move(-intersectX * (1.0f - push), 0.0f);
             other.Move(intersectX * push, 0.0f);
+            direction.x = -1;
+            direction.y = 0;
         }
     }
     else
@@ -77,11 +81,15 @@ bool Collider::CheckCollision(Collider& other, float push)
         {
             Move(0.0f, intersectY * (1.0f - push));
             other.Move(0.0f, -intersectY * push);
+            direction.x = 0;
+            direction.y = 1;
         }
         else
         {
             Move(0.0f, -intersectY * (1.0f - push));
             other.Move(0.0f, intersectY * push);
+            direction.x = 0;
+            direction.y = -1;
         }
     }
     return true;

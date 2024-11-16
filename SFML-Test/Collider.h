@@ -10,7 +10,7 @@ public:
 	sf::Vector2f GetPosition();
 	sf::Vector2f GetHalfSize();
 
-	bool CheckCollision(Collider& other, float push);
+	bool CheckCollision(Collider& other, float push, sf::Vector2f& direction);
 	void DebugDraw(sf::RenderWindow& window, sf::Color color);
 
 private:
